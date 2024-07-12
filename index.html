@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>one dash five.</title>
+    <link rel="stylesheet" href="css/home.css">
+</head>
+
+<body>
+    <div class="gradient-blur"></div>
+
+    <canvas id="noise" class="noise noise-animate" width="1900" height="900"></canvas>
+
+    <div class="portfolio-container">
+
+        <div class="intro-section">
+            <div class="intro-words">
+                <h1>Welcome to <span class="digital">dash-five</span> homepage.</h1>
+                <div class="hasque-status">
+                    <div class="previous-experience">
+                        <img src="images/business-icon.png" class="location-icon">
+                        <p><b>BSCS Dash Five</b></p>
+                        <p class="status-description">Started September 25th.</p>
+                    </div>
+                    <div class="location">
+                        <img src="images/location-icon.png" class="location-icon">
+                        <p><b>Location</b></p>
+                        <p class="status-description">Cavite State University</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="projects">
+            <div class="small-box-wrapper">
+                <a href="https://instagram.com/onedashfive/" target="_blank">
+                <div class="small-box instagram">
+                    <video class="instagram-video" autoplay muted loop playsinline preload="auto">
+                        <source src="media/instagram.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="title-description">
+                    <p class="job"><b>Instagram</b></p>
+                    <p class="work-description">How we Started &amp; Where Conversations Started.</p>
+                </div>
+                </a>
+            </div>
+
+            <div class="big-box-wrapper section-1">
+                <a href="https://instagram.com/onedashfive/" target="_blank">
+                    <div class="big-box firstfloor">
+                        <img class="firstfloor-image" src="images/dashfive.jpg" alt="Dashfive Image">
+                    </div>
+                    <div class="title-description">
+                        <p class="job"><b>Orientation Day</b></p>
+                        <p class="work-description">In steps fresh, hearts aglow, new paths beckon, seeds sow.</p>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="row2">
+                <div class="big-box-wrapper">
+                    <a href="https://instagram.com/onedashfive/" target="_blank">
+                    <div class="big-box cofolios">
+                        <video class="cofolios-resize" autoplay muted loop playsinline preload="auto">
+                            <source src="media/last.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="title-description">
+                        <p class="job"><b>Last Day</b></p>
+                        <p class="work-description">Where the first year journey ended.</p>
+                    </div>
+                    </a>
+                </div>
+                <div class="small-box-wrapper section-2">
+                    <a href="https://instagram.com/natslrt/" target="_blank">
+                    <div class="small-box curve">
+                        <video class="instagram-video" autoplay muted loop playsinline preload="auto">
+                            <source src="media/tristan.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="title-description">
+                        <p class="job"><b>Tristan na may Asin</b></p>
+                        <p class="work-description">An inspiration site for dash five.</p>
+                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="experiments animate-in-section">
+            <div class="list">
+                <h2 class="section-title">About Us </h2>
+                <div class="list-item"><a href="students.html">students list</a> <div class="number"> 02</div> </div>
+                <div class="dividers"></div>
+                <div class="list-item">gallery <div class="number"> 01</div> </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Noise Animation Script
+        const canvas = document.getElementById('noise');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function drawNoise() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+                const color = Math.random() * 255;
+                data[i] = color;
+                data[i + 1] = color;
+                data[i + 2] = color;
+                data[i + 3] = 255;
+            }
+            ctx.putImageData(imageData, 0, 0);
+            requestAnimationFrame(drawNoise);
+        }
+
+        drawNoise();
+
+        // Add class to animate
+        setTimeout(() => {
+            canvas.classList.add('noise-animate');
+        }, 0);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const projectsSection = document.querySelector('.projects');
+            const smallBoxWrapper = document.querySelectorAll('.small-box-wrapper');
+            const bigBoxWrapper = document.querySelectorAll('.big-box-wrapper');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when at least 10% of the target is visible
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        smallBoxWrapper.forEach(box => box.classList.add('animate-in'));
+                        bigBoxWrapper.forEach(box => box.classList.add('animate-in'));
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+            observer.observe(projectsSection);
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const listItems = document.querySelectorAll('.list-item');
+            const videoContainer = document.createElement('div');
+            const videoElement = document.createElement('video');
+
+            videoContainer.className = 'video-container highlight-item';
+            videoElement.muted = true;
+            videoElement.loop = true;
+            videoElement.playsInline = true;
+            videoElement.style.borderRadius = '32px';
+            videoElement.style.width = '330px';
+            videoElement.style.height = 'auto';
+            videoElement.style.boxShadow = '0px 54px 60px 0px rgba(0, 0, 0, 0.25)';
+
+            videoContainer.appendChild(videoElement);
+            document.body.appendChild(videoContainer);
+
+            const videos = [
+                './images/locker-prototype.mp4',
+                './images/next-time.mp4',
+                './images/read-cv.mp4',
+                './images/spotify-comments.mp4',
+                './images/postcard-experiment.mp4',
+                './images/figma-prototype.mp4',
+                './images/bereal.mp4',
+                './images/pocket-mirror.mp4',
+            ];
+
+            // Preload the videos
+            videos.forEach(video => {
+                const preloader = document.createElement('video');
+                preloader.preload = 'auto';
+                const source = document.createElement('source');
+                source.src = video;
+                preloader.appendChild(source);
+                preloader.style.display = 'none'; // Hide the video element
+                document.body.appendChild(preloader); // Append it to the DOM
+            });
+
+            function adjustVideoSize() {
+                if (window.innerWidth < 768) {
+                    videoElement.classList.add('small-screen');
+                } else {
+                    videoElement.classList.remove('small-screen');
+                }
+            }
+
+            // Call the function on page load
+            adjustVideoSize();
+
+            // Call the function when the window is resized
+            window.addEventListener('resize', adjustVideoSize);
+
+            listItems.forEach((item, index) => {
+                item.addEventListener('mouseover', function (e) {
+                    listItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.add('dim-all');
+                        }
+                    });
+                    item.classList.remove('dim-all');
+                    item.classList.add('highlight-item');
+                    videoElement.src = videos[index];
+                    videoContainer.style.opacity = '1';
+                    videoElement.play();
+                    videoContainer.style.top = e.clientY + 'px';
+                    videoContainer.style.left = e.clientX + 'px';
+                });
+
+                item.addEventListener('mousemove', function (e) {
+                    videoContainer.style.top = e.clientY + 'px';
+                    videoContainer.style.left = e.clientX + 'px';
+                });
+
+                item.addEventListener('mouseleave', function () {
+                    item.classList.remove('highlight-item');
+                    listItems.forEach(otherItem => otherItem.classList.remove('dim-all'));
+                    videoContainer.style.opacity = '0';
+                    videoElement.pause();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
